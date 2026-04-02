@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-400 py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center gap-2 mb-3">
               <Heart className="w-6 h-6 text-red-500 fill-red-500" />
@@ -14,7 +14,7 @@ export default function Footer() {
             </div>
             <p className="text-sm">
               Create beautiful marriage biodata in minutes. Premium templates for every
-              religion and community.
+              religion and community. Free to create, ₹9/$2 to download PDF.
             </p>
           </div>
           <div>
@@ -22,7 +22,17 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               <li><a href="/" className="hover:text-white transition">Home</a></li>
               <li><a href="/create" className="hover:text-white transition">Create Biodata</a></li>
-              <li><a href="/templates" className="hover:text-white transition">Templates</a></li>
+              <li><a href="/templates" className="hover:text-white transition">Biodata Templates</a></li>
+              <li><a href="/biodata-maker" className="hover:text-white transition">Biodata Maker</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-white font-semibold mb-3">By Religion</h4>
+            <ul className="space-y-2 text-sm">
+              <li><a href="/hindu-marriage-biodata" className="hover:text-white transition">Hindu Marriage Biodata</a></li>
+              <li><a href="/muslim-marriage-biodata" className="hover:text-white transition">Muslim Marriage Biodata</a></li>
+              <li><a href="/christian-marriage-biodata" className="hover:text-white transition">Christian Marriage Biodata</a></li>
+              <li><a href="/sikh-marriage-biodata" className="hover:text-white transition">Sikh Marriage Biodata</a></li>
             </ul>
           </div>
           <div>

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { templateList } from "@/components/BiodataTemplate";
 import {
   Heart,
   FileText,
@@ -16,8 +17,8 @@ import {
 const features = [
   {
     icon: FileText,
-    title: "Premium Templates",
-    description: "4 beautiful handcrafted templates — Elegant Gold, Royal Red, Modern Blue & Traditional Green",
+    title: "24 Premium Templates",
+    description: "Floral, Royal, Elegant, Modern, Traditional & Luxury — 24 stunning designs with decorative borders & ornaments.",
   },
   {
     icon: Globe,
@@ -48,7 +49,7 @@ const features = [
 
 const steps = [
   { num: "1", title: "Fill Your Details", desc: "Answer detailed questions about yourself, family, education & preferences" },
-  { num: "2", title: "Choose Template", desc: "Pick from 4 premium biodata templates designed for every community" },
+  { num: "2", title: "Choose Template", desc: "Pick from 24 premium biodata templates — floral, royal, elegant & more" },
   { num: "3", title: "Preview & Download", desc: "Preview your biodata, pay ₹9/$2 and download as PDF or Image" },
 ];
 
@@ -93,7 +94,7 @@ export default function Home() {
                 href="/templates"
                 className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white border-2 border-gray-200 text-gray-700 hover:border-red-300 rounded-full text-lg font-medium transition"
               >
-                View Templates
+                View 24 Templates
               </Link>
             </div>
             <p className="text-sm text-gray-400 mt-4">
@@ -125,8 +126,79 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features */}
+      {/* Template Showcase */}
       <section className="py-16 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-gray-900 mb-3">
+            24 Beautiful Templates
+          </h2>
+          <p className="text-center text-gray-500 mb-8 max-w-lg mx-auto">
+            Floral, Royal, Elegant, Modern, Traditional & Luxury — each with unique decorative borders, ornaments & flowers.
+          </p>
+
+          {/* Scrollable template preview row */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 mb-8">
+            {templateList.slice(0, 12).map((tpl) => (
+              <div
+                key={tpl.id}
+                className="rounded-lg border-2 overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group"
+                style={{ backgroundColor: tpl.bg, borderColor: `${tpl.borderColor}60` }}
+              >
+                <div className="p-2.5 relative h-32">
+                  {/* Corner decor */}
+                  <span className="absolute top-0.5 left-1 text-[7px]" style={{ color: tpl.accent }}>{tpl.cornerDecor}</span>
+                  <span className="absolute top-0.5 right-1 text-[7px]" style={{ color: tpl.accent }}>{tpl.cornerDecor}</span>
+
+                  {/* Mini header */}
+                  <div className="text-center mb-1">
+                    <div className="inline-block px-1.5 py-[1px] rounded text-[5px] font-bold text-white" style={{ backgroundColor: tpl.headerBg }}>
+                      {tpl.headerDecorLeft} ✦ {tpl.headerDecorRight}
+                    </div>
+                    <div className="text-[6px] font-bold" style={{ color: tpl.primary }}>BIODATA</div>
+                  </div>
+
+                  {/* Content mock */}
+                  <div className="space-y-[3px]">
+                    <div className="flex items-center gap-0.5">
+                      <span className="text-[4px]" style={{ color: tpl.accent }}>{tpl.sectionIcon}</span>
+                      <div className="h-[2px] rounded-full w-10" style={{ backgroundColor: tpl.primary }} />
+                    </div>
+                    <div className="h-[1.5px] rounded-full w-full" style={{ backgroundColor: `${tpl.primary}18` }} />
+                    <div className="h-[1.5px] rounded-full w-3/4" style={{ backgroundColor: `${tpl.primary}12` }} />
+                    <div className="flex items-center gap-0.5 mt-0.5">
+                      <span className="text-[4px]" style={{ color: tpl.accent }}>{tpl.sectionIcon}</span>
+                      <div className="h-[2px] rounded-full w-8" style={{ backgroundColor: tpl.primary }} />
+                    </div>
+                    <div className="h-[1.5px] rounded-full w-full" style={{ backgroundColor: `${tpl.primary}15` }} />
+                    <div className="h-[1.5px] rounded-full w-2/3" style={{ backgroundColor: `${tpl.primary}12` }} />
+                  </div>
+
+                  {/* Footer decor */}
+                  <div className="absolute bottom-1 left-0 right-0 text-center text-[5px] tracking-wide" style={{ color: tpl.accent }}>
+                    {tpl.footerDecor}
+                  </div>
+                </div>
+                <div className="px-2 py-1.5 border-t" style={{ borderTopColor: `${tpl.borderColor}30` }}>
+                  <p className="text-[10px] font-semibold text-gray-800 truncate">{tpl.name}</p>
+                  <p className="text-[8px] text-gray-400">{tpl.category}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <Link
+              href="/templates"
+              className="inline-block px-8 py-3 bg-red-500 hover:bg-red-600 text-white rounded-full font-bold transition shadow-lg"
+            >
+              View All 24 Templates →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">
             Everything You Need

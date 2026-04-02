@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { Download, Image, ArrowLeft, Lock, CheckCircle } from "lucide-react";
 import toast from "react-hot-toast";
 import { useRef, useState, useCallback } from "react";
+import { toPng } from "html-to-image";
 
 export default function PreviewPage() {
   const { biodata, isPaid, setIsPaid } = useBiodataStore();
@@ -30,6 +31,42 @@ export default function PreviewPage() {
     );
   }, [biodata.country, setIsPaid]);
 
+  const captureImage = useCallback(async (): Promise<string> => {
+    const element = document.getElementById("biodata-content");
+    if (!element) throw new Error("Biodata element not found");
+
+    // Ensure element is visible and rendered
+    window.scrollTo(0, 0);
+    await new Promise((r) => setTimeout(r, 300));
+
+    // html-to-image with multiple retries for reliability
+    let dataUrl = "";
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        dataUrl = await toPng(element, {
+          quality: 0.95,
+          pixelRatio: 2,
+          backgroundColor: "#ffffff",
+          cacheBust: true,
+          style: {
+            transform: "none",
+            transformOrigin: "top left",
+          },
+        });
+        if (dataUrl && dataUrl.length > 100) break;
+      } catch (e) {
+        if (attempt === 2) throw e;
+        await new Promise((r) => setTimeout(r, 500));
+      }
+    }
+
+    if (!dataUrl || dataUrl.length < 100) {
+      throw new Error("Generated image is empty");
+    }
+
+    return dataUrl;
+  }, []);
+
   const handleDownloadPDF = useCallback(async () => {
     if (!isPaid) {
       handlePayment();
@@ -37,36 +74,52 @@ export default function PreviewPage() {
     }
 
     setDownloading(true);
+    const loadingToast = toast.loading("Generating PDF...");
     try {
-      const html2canvas = (await import("html2canvas")).default;
+      const dataUrl = await captureImage();
       const jsPDF = (await import("jspdf")).default;
 
-      const element = document.getElementById("biodata-content");
-      if (!element) return;
-
-      const canvas = await html2canvas(element, {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        backgroundColor: null,
-      });
-
-      const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF("p", "mm", "a4");
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
-      
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+
+      // Calculate dimensions preserving aspect ratio (794x1123 template = A4 ratio)
+      const img = new window.Image();
+      await new Promise<void>((resolve, reject) => {
+        img.onload = () => resolve();
+        img.onerror = reject;
+        img.src = dataUrl;
+      });
+
+      const imgRatio = img.width / img.height;
+      const pageRatio = pdfWidth / pdfHeight;
+
+      let drawWidth = pdfWidth;
+      let drawHeight = pdfHeight;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      if (imgRatio > pageRatio) {
+        drawHeight = pdfWidth / imgRatio;
+        offsetY = (pdfHeight - drawHeight) / 2;
+      } else {
+        drawWidth = pdfHeight * imgRatio;
+        offsetX = (pdfWidth - drawWidth) / 2;
+      }
+
+      pdf.addImage(dataUrl, "PNG", offsetX, offsetY, drawWidth, drawHeight);
       pdf.save(`${biodata.fullName || "biodata"}_biodata.pdf`);
 
+      toast.dismiss(loadingToast);
       toast.success("PDF downloaded successfully!");
     } catch (error) {
       console.error("PDF generation error:", error);
-      toast.error("Failed to generate PDF. Please try again.");
+      toast.dismiss(loadingToast);
+      toast.error("Failed to generate PDF. Please try refreshing the page.");
     } finally {
       setDownloading(false);
     }
-  }, [isPaid, handlePayment, biodata.fullName]);
+  }, [isPaid, handlePayment, biodata.fullName, captureImage]);
 
   const handleDownloadImage = useCallback(async () => {
     if (!isPaid) {
@@ -75,32 +128,27 @@ export default function PreviewPage() {
     }
 
     setDownloading(true);
+    const loadingToast = toast.loading("Generating image...");
     try {
-      const html2canvas = (await import("html2canvas")).default;
-
-      const element = document.getElementById("biodata-content");
-      if (!element) return;
-
-      const canvas = await html2canvas(element, {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        backgroundColor: null,
-      });
+      const dataUrl = await captureImage();
 
       const link = document.createElement("a");
       link.download = `${biodata.fullName || "biodata"}_biodata.png`;
-      link.href = canvas.toDataURL("image/png");
+      link.href = dataUrl;
+      document.body.appendChild(link);
       link.click();
+      document.body.removeChild(link);
 
+      toast.dismiss(loadingToast);
       toast.success("Image downloaded successfully!");
     } catch (error) {
       console.error("Image generation error:", error);
-      toast.error("Failed to generate image. Please try again.");
+      toast.dismiss(loadingToast);
+      toast.error("Failed to generate image. Please try refreshing the page.");
     } finally {
       setDownloading(false);
     }
-  }, [isPaid, handlePayment, biodata.fullName]);
+  }, [isPaid, handlePayment, biodata.fullName, captureImage]);
 
   if (!biodata.fullName) {
     return (

@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({
         amount: amount, // amount in paise
         currency: currency,
-        receipt: `biodata_${crypto.randomUUID()}`,
+        receipt: `bd_${Date.now()}`,
       }),
     });
 

@@ -1,7 +1,9 @@
 "use client";
 
 import { useBiodataStore } from "@/lib/store";
+import { validateStep } from "@/lib/validation";
 import { Check } from "lucide-react";
+import toast from "react-hot-toast";
 
 const steps = [
   "Personal",
@@ -16,7 +18,25 @@ const steps = [
 ];
 
 export default function StepProgress() {
-  const { currentStep, setStep } = useBiodataStore();
+  const { currentStep, setStep, biodata } = useBiodataStore();
+
+  const handleStepClick = (index: number) => {
+    // Allow going back freely
+    if (index <= currentStep) {
+      setStep(index);
+      return;
+    }
+    // For going forward, validate all steps in between
+    for (let i = currentStep; i < index; i++) {
+      const result = validateStep(i, biodata);
+      if (!result.valid) {
+        toast.error(result.message);
+        setStep(i);
+        return;
+      }
+    }
+    setStep(index);
+  };
 
   return (
     <div className="w-full overflow-x-auto no-print">
@@ -24,7 +44,7 @@ export default function StepProgress() {
         {steps.map((step, index) => (
           <div key={step} className="flex items-center">
             <button
-              onClick={() => setStep(index)}
+              onClick={() => handleStepClick(index)}
               className="flex flex-col items-center gap-1 group"
             >
               <div

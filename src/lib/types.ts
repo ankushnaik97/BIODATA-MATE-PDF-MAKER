@@ -93,6 +93,7 @@ export interface BiodataForm {
 
   // Template
   templateId: string;
+  showReligiousHeadline: boolean;
 }
 
 export const defaultBiodata: BiodataForm = {
@@ -180,4 +181,5 @@ export const defaultBiodata: BiodataForm = {
 
   aboutMe: '',
   templateId: 'elegant',
+  showReligiousHeadline: true,
 };

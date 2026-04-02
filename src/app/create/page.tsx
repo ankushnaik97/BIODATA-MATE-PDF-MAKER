@@ -1,6 +1,7 @@
 "use client";
 
 import { useBiodataStore } from "@/lib/store";
+import { validateStep } from "@/lib/validation";
 import StepProgress from "@/components/StepProgress";
 import StepPersonal from "@/components/steps/StepPersonal";
 import StepReligion from "@/components/steps/StepReligion";
@@ -33,9 +34,19 @@ export default function CreatePage() {
 
   const StepComponent = stepComponents[currentStep];
 
+  const handleNext = () => {
+    const result = validateStep(currentStep, biodata);
+    if (!result.valid) {
+      toast.error(result.message);
+      return;
+    }
+    nextStep();
+  };
+
   const handlePreview = () => {
-    if (!biodata.fullName) {
-      toast.error("Please enter your full name first");
+    const result = validateStep(currentStep, biodata);
+    if (!result.valid) {
+      toast.error(result.message);
       return;
     }
     router.push("/preview");
@@ -75,7 +86,7 @@ export default function CreatePage() {
             </button>
           ) : (
             <button
-              onClick={nextStep}
+              onClick={handleNext}
               className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-red-500 hover:bg-red-600 text-white transition text-sm font-semibold shadow-md"
             >
               Next

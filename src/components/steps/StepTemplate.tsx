@@ -1,78 +1,162 @@
 "use client";
 
 import { useBiodataStore } from "@/lib/store";
+import { templateList } from "@/components/BiodataTemplate";
 import { Check } from "lucide-react";
+import { useState } from "react";
 
-const templates = [
-  {
-    id: "elegant",
-    name: "Elegant Gold",
-    description: "Classic golden border with warm ivory background",
-    colors: { primary: "#b8860b", bg: "from-amber-50 to-orange-50", border: "border-amber-600" },
-  },
-  {
-    id: "royal",
-    name: "Royal Red",
-    description: "Rich red theme with ornate styling — perfect for Indian weddings",
-    colors: { primary: "#dc2626", bg: "from-red-50 to-pink-50", border: "border-red-600" },
-  },
-  {
-    id: "modern",
-    name: "Modern Blue",
-    description: "Clean minimal design with a professional blue accent",
-    colors: { primary: "#2563eb", bg: "from-blue-50 to-cyan-50", border: "border-blue-600" },
-  },
-  {
-    id: "traditional",
-    name: "Traditional Green",
-    description: "Auspicious green with traditional florals — suits all religions",
-    colors: { primary: "#16a34a", bg: "from-green-50 to-emerald-50", border: "border-green-600" },
-  },
-];
+const categories = ["All", ...Array.from(new Set(templateList.map(t => t.category)))];
 
 export default function StepTemplate() {
   const { biodata, setBiodata } = useBiodataStore();
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const filtered = activeCategory === "All" ? templateList : templateList.filter(t => t.category === activeCategory);
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-xl font-bold text-gray-900">Choose Template</h2>
-      <p className="text-sm text-gray-500">Select a design for your biodata</p>
+    <div className="space-y-5">
+      <div>
+        <h2 className="text-xl font-bold text-gray-900">Choose Template</h2>
+        <p className="text-sm text-gray-500 mt-1">{templateList.length} beautiful designs — floral, royal, elegant & more</p>
+      </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {templates.map((tpl) => (
+      {/* Religious Headline Toggle */}
+      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 flex items-center justify-between">
+        <div>
+          <p className="text-sm font-semibold text-amber-900">Religious Headline</p>
+          <p className="text-xs text-amber-700 mt-0.5">
+            Show religious text like &quot;श्री गणेशाय नमः&quot; or &quot;بسم الله&quot; at the top
+          </p>
+        </div>
+        <button
+          onClick={() => setBiodata({ showReligiousHeadline: !biodata.showReligiousHeadline })}
+          className={`relative w-12 h-6 rounded-full transition-colors ${
+            biodata.showReligiousHeadline !== false ? "bg-green-500" : "bg-gray-300"
+          }`}
+        >
+          <span
+            className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+              biodata.showReligiousHeadline !== false ? "translate-x-6" : "translate-x-0"
+            }`}
+          />
+        </button>
+      </div>
+
+      {/* Category filter */}
+      <div className="flex flex-wrap gap-2">
+        {categories.map(cat => (
           <button
-            key={tpl.id}
-            onClick={() => setBiodata({ templateId: tpl.id })}
-            className={`relative p-1 rounded-xl transition-all ${
-              biodata.templateId === tpl.id
-                ? `ring-2 ring-offset-2 ${tpl.colors.border} ring-current`
-                : "hover:shadow-lg"
+            key={cat}
+            onClick={() => setActiveCategory(cat)}
+            className={`px-3 py-1 rounded-full text-xs font-medium transition ${
+              activeCategory === cat
+                ? "bg-red-500 text-white shadow"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
           >
-            <div
-              className={`bg-gradient-to-br ${tpl.colors.bg} rounded-lg p-6 h-48 flex flex-col justify-between border ${tpl.colors.border}`}
+            {cat === "All" ? `All (${templateList.length})` : cat}
+          </button>
+        ))}
+      </div>
+
+      {/* Template grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+        {filtered.map((tpl) => {
+          const isSelected = biodata.templateId === tpl.id;
+          return (
+            <button
+              key={tpl.id}
+              onClick={() => setBiodata({ templateId: tpl.id })}
+              className={`relative rounded-xl transition-all text-left group ${
+                isSelected
+                  ? "ring-2 ring-offset-2 shadow-lg scale-[1.02]"
+                  : "hover:shadow-md hover:scale-[1.01]"
+              }`}
+              style={{ "--tw-ring-color": isSelected ? tpl.primary : undefined } as React.CSSProperties}
             >
-              <div>
-                <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-gray-800">{tpl.name}</h3>
-                  {biodata.templateId === tpl.id && (
-                    <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                      <Check className="w-4 h-4 text-white" />
+              <div
+                className="rounded-lg overflow-hidden border-2 h-44"
+                style={{
+                  backgroundColor: tpl.bg,
+                  borderColor: isSelected ? tpl.primary : `${tpl.borderColor}50`,
+                }}
+              >
+                {/* Mini preview */}
+                <div className="p-3 h-full flex flex-col relative">
+                  {/* Corner decorations (mini) */}
+                  <span className="absolute top-1 left-1.5 text-[8px]" style={{ color: tpl.accent }}>{tpl.cornerDecor}</span>
+                  <span className="absolute top-1 right-1.5 text-[8px]" style={{ color: tpl.accent }}>{tpl.cornerDecor}</span>
+
+                  {/* Header mock */}
+                  <div className="text-center mb-1.5">
+                    <div
+                      className="inline-block px-2 py-0.5 rounded text-[6px] font-bold text-white"
+                      style={{ backgroundColor: tpl.headerBg }}
+                    >
+                      {tpl.headerDecorLeft} ✦ {tpl.headerDecorRight}
+                    </div>
+                    <div className="text-[7px] font-bold mt-0.5" style={{ color: tpl.primary }}>BIODATA</div>
+                    <div className="flex items-center justify-center gap-1">
+                      <div className="h-[0.5px] w-6" style={{ backgroundColor: tpl.accent }} />
+                      <span className="text-[5px]" style={{ color: tpl.accent }}>{tpl.sectionIcon}</span>
+                      <div className="h-[0.5px] w-6" style={{ backgroundColor: tpl.accent }} />
+                    </div>
+                  </div>
+
+                  {/* Content mock with photo */}
+                  <div className="flex gap-1 flex-1">
+                    <div className="flex-1 space-y-1">
+                      {/* Section mock */}
+                      <div className="flex items-center gap-0.5">
+                        <span className="text-[5px]" style={{ color: tpl.accent }}>{tpl.sectionIcon}</span>
+                        <div className="h-[3px] rounded-full w-12" style={{ backgroundColor: tpl.primary }} />
+                      </div>
+                      <div className="h-[2px] rounded-full w-full" style={{ backgroundColor: `${tpl.primary}20` }} />
+                      <div className="h-[2px] rounded-full w-3/4" style={{ backgroundColor: `${tpl.primary}15` }} />
+                      <div className="h-[2px] rounded-full w-4/5" style={{ backgroundColor: `${tpl.primary}20` }} />
+
+                      <div className="flex items-center gap-0.5 mt-0.5">
+                        <span className="text-[5px]" style={{ color: tpl.accent }}>{tpl.sectionIcon}</span>
+                        <div className="h-[3px] rounded-full w-10" style={{ backgroundColor: tpl.primary }} />
+                      </div>
+                      <div className="h-[2px] rounded-full w-full" style={{ backgroundColor: `${tpl.primary}15` }} />
+                      <div className="h-[2px] rounded-full w-2/3" style={{ backgroundColor: `${tpl.primary}20` }} />
+
+                      <div className="flex items-center gap-0.5 mt-0.5">
+                        <span className="text-[5px]" style={{ color: tpl.accent }}>{tpl.sectionIcon}</span>
+                        <div className="h-[3px] rounded-full w-8" style={{ backgroundColor: tpl.primary }} />
+                      </div>
+                      <div className="h-[2px] rounded-full w-full" style={{ backgroundColor: `${tpl.primary}15` }} />
+                      <div className="h-[2px] rounded-full w-1/2" style={{ backgroundColor: `${tpl.primary}20` }} />
+                    </div>
+                    {/* Photo mock */}
+                    <div
+                      className="w-7 h-9 rounded border flex-shrink-0"
+                      style={{ backgroundColor: `${tpl.accent}30`, borderColor: `${tpl.accent}60` }}
+                    />
+                  </div>
+
+                  {/* Footer */}
+                  <div className="text-center mt-auto pt-0.5">
+                    <div className="text-[5px] tracking-widest" style={{ color: tpl.accent }}>{tpl.footerDecor}</div>
+                  </div>
+
+                  {/* Selected check */}
+                  {isSelected && (
+                    <div className="absolute top-1 right-1.5 w-5 h-5 rounded-full flex items-center justify-center z-10 shadow" style={{ backgroundColor: tpl.primary }}>
+                      <Check className="w-3 h-3 text-white" />
                     </div>
                   )}
                 </div>
-                <p className="text-xs text-gray-500 mt-1">{tpl.description}</p>
               </div>
-              {/* Mini preview */}
-              <div className="space-y-1">
-                <div className="h-2 rounded bg-gray-300/50 w-3/4" />
-                <div className="h-2 rounded bg-gray-300/50 w-1/2" />
-                <div className="h-2 rounded bg-gray-300/50 w-2/3" />
-                <div className="h-2 rounded bg-gray-300/50 w-1/3" />
+              {/* Template info */}
+              <div className="px-1 py-1.5">
+                <h3 className="font-semibold text-xs text-gray-800 truncate">{tpl.name}</h3>
+                <p className="text-[10px] text-gray-500 truncate">{tpl.desc}</p>
               </div>
-            </div>
-          </button>
-        ))}
+            </button>
+          );
+        })}
       </div>
 
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
