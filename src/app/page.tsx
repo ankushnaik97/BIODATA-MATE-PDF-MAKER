@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { templateList } from "@/components/BiodataTemplate";
+import MiniTemplatePreview from "@/components/MiniTemplatePreview";
 import {
   Heart,
   FileText,
@@ -139,50 +140,20 @@ export default function Home() {
           {/* Scrollable template preview row */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 mb-8">
             {templateList.slice(0, 12).map((tpl) => (
-              <div
+              <Link
                 key={tpl.id}
-                className="rounded-lg border-2 overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group"
-                style={{ backgroundColor: tpl.bg, borderColor: `${tpl.borderColor}60` }}
+                href="/templates"
+                className="rounded-lg border-2 overflow-hidden hover:shadow-lg transition-shadow group"
+                style={{ borderColor: `${tpl.borderColor}50` }}
               >
-                <div className="p-2.5 relative h-32">
-                  {/* Corner decor */}
-                  <span className="absolute top-0.5 left-1 text-[7px]" style={{ color: tpl.accent }}>{tpl.cornerDecor}</span>
-                  <span className="absolute top-0.5 right-1 text-[7px]" style={{ color: tpl.accent }}>{tpl.cornerDecor}</span>
-
-                  {/* Mini header */}
-                  <div className="text-center mb-1">
-                    <div className="inline-block px-1.5 py-[1px] rounded text-[5px] font-bold text-white" style={{ backgroundColor: tpl.headerBg }}>
-                      {tpl.headerDecorLeft} ✦ {tpl.headerDecorRight}
-                    </div>
-                    <div className="text-[6px] font-bold" style={{ color: tpl.primary }}>BIODATA</div>
-                  </div>
-
-                  {/* Content mock */}
-                  <div className="space-y-[3px]">
-                    <div className="flex items-center gap-0.5">
-                      <span className="text-[4px]" style={{ color: tpl.accent }}>{tpl.sectionIcon}</span>
-                      <div className="h-[2px] rounded-full w-10" style={{ backgroundColor: tpl.primary }} />
-                    </div>
-                    <div className="h-[1.5px] rounded-full w-full" style={{ backgroundColor: `${tpl.primary}18` }} />
-                    <div className="h-[1.5px] rounded-full w-3/4" style={{ backgroundColor: `${tpl.primary}12` }} />
-                    <div className="flex items-center gap-0.5 mt-0.5">
-                      <span className="text-[4px]" style={{ color: tpl.accent }}>{tpl.sectionIcon}</span>
-                      <div className="h-[2px] rounded-full w-8" style={{ backgroundColor: tpl.primary }} />
-                    </div>
-                    <div className="h-[1.5px] rounded-full w-full" style={{ backgroundColor: `${tpl.primary}15` }} />
-                    <div className="h-[1.5px] rounded-full w-2/3" style={{ backgroundColor: `${tpl.primary}12` }} />
-                  </div>
-
-                  {/* Footer decor */}
-                  <div className="absolute bottom-1 left-0 right-0 text-center text-[5px] tracking-wide" style={{ color: tpl.accent }}>
-                    {tpl.footerDecor}
-                  </div>
+                <div className="h-40">
+                  <MiniTemplatePreview tpl={tpl} size="sm" />
                 </div>
-                <div className="px-2 py-1.5 border-t" style={{ borderTopColor: `${tpl.borderColor}30` }}>
+                <div className="px-2 py-1.5 bg-white border-t" style={{ borderTopColor: `${tpl.borderColor}30` }}>
                   <p className="text-[10px] font-semibold text-gray-800 truncate">{tpl.name}</p>
                   <p className="text-[8px] text-gray-400">{tpl.category}</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 

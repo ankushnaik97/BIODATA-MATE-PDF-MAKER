@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { templateList } from "@/components/BiodataTemplate";
+import MiniTemplatePreview from "@/components/MiniTemplatePreview";
 import { useState } from "react";
 
 const categories = ["All", ...Array.from(new Set(templateList.map(t => t.category)))];
@@ -46,106 +47,43 @@ export default function TemplatesPage() {
           {filtered.map((tpl) => (
             <div
               key={tpl.id}
-              className="rounded-2xl overflow-hidden border-2 hover:shadow-xl transition-all group"
-              style={{ backgroundColor: tpl.bg, borderColor: `${tpl.borderColor}50` }}
+              className="rounded-2xl overflow-hidden border hover:shadow-xl transition-all group bg-white"
+              style={{ borderColor: `${tpl.borderColor}40` }}
             >
-              {/* Preview area */}
-              <div className="p-5 relative h-56">
-                {/* Corner decorations */}
-                <span className="absolute top-2 left-3 text-sm" style={{ color: tpl.accent }}>{tpl.cornerDecor}</span>
-                <span className="absolute top-2 right-3 text-sm" style={{ color: tpl.accent }}>{tpl.cornerDecor}</span>
-                <span className="absolute bottom-2 left-3 text-sm" style={{ color: tpl.accent }}>{tpl.cornerDecor}</span>
-                <span className="absolute bottom-2 right-3 text-sm" style={{ color: tpl.accent }}>{tpl.cornerDecor}</span>
-
-                {/* Divider top */}
-                <div className="text-center text-[8px] mb-1 tracking-[0.25em]" style={{ color: tpl.accent }}>
-                  {tpl.divider}
-                </div>
-
-                {/* Header mock */}
-                <div className="text-center mb-3">
-                  <div
-                    className="inline-block px-4 py-1 rounded-md text-[9px] font-bold text-white"
-                    style={{ backgroundColor: tpl.headerBg }}
-                  >
-                    {tpl.headerDecorLeft} ॥ श्री गणेशाय नमः ॥ {tpl.headerDecorRight}
-                  </div>
-                  <div className="text-[10px] font-bold tracking-[0.2em] mt-1" style={{ color: tpl.primary }}>BIODATA</div>
-                  <div className="flex items-center justify-center gap-1.5 mt-0.5">
-                    <div className="h-[0.5px] w-10" style={{ backgroundColor: tpl.accent }} />
-                    <span className="text-[7px]" style={{ color: tpl.accent }}>{tpl.sectionIcon}</span>
-                    <div className="h-[0.5px] w-10" style={{ backgroundColor: tpl.accent }} />
-                  </div>
-                </div>
-
-                {/* Content mock */}
-                <div className="flex gap-3">
-                  <div className="flex-1 space-y-1.5">
-                    {/* Section 1 */}
-                    <div className="flex items-center gap-1">
-                      <span className="text-[6px]" style={{ color: tpl.accent }}>{tpl.sectionIcon}</span>
-                      <div className="h-[3px] rounded-full w-16" style={{ backgroundColor: tpl.primary }} />
-                    </div>
-                    <div className="space-y-[2px]">
-                      <div className="h-[2px] rounded-full w-full" style={{ backgroundColor: `${tpl.primary}20` }} />
-                      <div className="h-[2px] rounded-full w-4/5" style={{ backgroundColor: `${tpl.primary}15` }} />
-                      <div className="h-[2px] rounded-full w-3/4" style={{ backgroundColor: `${tpl.primary}20` }} />
-                    </div>
-                    {/* Section 2 */}
-                    <div className="flex items-center gap-1 mt-1">
-                      <span className="text-[6px]" style={{ color: tpl.accent }}>{tpl.sectionIcon}</span>
-                      <div className="h-[3px] rounded-full w-14" style={{ backgroundColor: tpl.primary }} />
-                    </div>
-                    <div className="space-y-[2px]">
-                      <div className="h-[2px] rounded-full w-full" style={{ backgroundColor: `${tpl.primary}15` }} />
-                      <div className="h-[2px] rounded-full w-2/3" style={{ backgroundColor: `${tpl.primary}20` }} />
-                    </div>
-                    {/* Section 3 */}
-                    <div className="flex items-center gap-1 mt-1">
-                      <span className="text-[6px]" style={{ color: tpl.accent }}>{tpl.sectionIcon}</span>
-                      <div className="h-[3px] rounded-full w-12" style={{ backgroundColor: tpl.primary }} />
-                    </div>
-                    <div className="space-y-[2px]">
-                      <div className="h-[2px] rounded-full w-full" style={{ backgroundColor: `${tpl.primary}15` }} />
-                      <div className="h-[2px] rounded-full w-1/2" style={{ backgroundColor: `${tpl.primary}20` }} />
-                    </div>
-                  </div>
-                  {/* Photo mock */}
-                  <div
-                    className="w-10 h-14 rounded border flex-shrink-0 mt-1"
-                    style={{ backgroundColor: `${tpl.accent}25`, borderColor: `${tpl.accent}60` }}
-                  />
-                </div>
-
-                {/* Footer decor */}
-                <div className="absolute bottom-3 left-0 right-0 text-center text-[7px] tracking-widest" style={{ color: tpl.accent }}>
-                  {tpl.footerDecor}
-                </div>
+              {/* Real template preview */}
+              <div className="h-72 border-b" style={{ borderBottomColor: `${tpl.borderColor}20` }}>
+                <MiniTemplatePreview tpl={tpl} size="md" />
               </div>
 
               {/* Info area */}
-              <div className="px-5 py-4 bg-white/60 border-t" style={{ borderTopColor: `${tpl.borderColor}30` }}>
-                <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <span className="inline-block px-2 py-0.5 rounded text-[9px] font-medium mb-1.5" style={{ backgroundColor: `${tpl.primary}10`, color: tpl.primary }}>
-                      {tpl.category}
-                    </span>
-                    <h3 className="text-base font-bold text-gray-800">{tpl.name}</h3>
-                    <p className="text-xs text-gray-500 mt-0.5">{tpl.desc}</p>
-                  </div>
+              <div className="px-5 py-4">
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span
+                    className="inline-block px-2 py-0.5 rounded text-[10px] font-medium"
+                    style={{ backgroundColor: `${tpl.primary}10`, color: tpl.primary }}
+                  >
+                    {tpl.category}
+                  </span>
+                  <span className="text-xs" style={{ color: tpl.accent }}>{tpl.cornerDecor}</span>
                 </div>
-                <div className="flex flex-wrap gap-1.5 mt-3 mb-3">
-                  {[
-                    `${tpl.cornerDecor} Decorative corners`,
-                    `${tpl.borderStyle} borders`,
-                    "Print-ready A4",
-                  ].map((f) => (
-                    <span key={f} className="text-[10px] px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">{f}</span>
-                  ))}
+                <h3 className="text-base font-bold text-gray-800">{tpl.name}</h3>
+                <p className="text-xs text-gray-500 mt-0.5 mb-3">{tpl.desc}</p>
+
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">
+                    {tpl.cornerDecor} Floral / Ornamental
+                  </span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">
+                    {tpl.borderStyle} borders
+                  </span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">
+                    A4 Print-ready
+                  </span>
                 </div>
+
                 <Link
                   href="/create"
-                  className="block text-center px-4 py-2 rounded-full text-white text-sm font-semibold transition shadow hover:opacity-90"
+                  className="block text-center px-4 py-2.5 rounded-full text-white text-sm font-semibold transition shadow hover:opacity-90"
                   style={{ backgroundColor: tpl.primary }}
                 >
                   Use This Template →
