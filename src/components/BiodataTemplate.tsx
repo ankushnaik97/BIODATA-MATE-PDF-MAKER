@@ -1,6 +1,7 @@
 "use client";
 
 import { BiodataForm } from "@/lib/types";
+import { getDecoration } from "@/components/TemplateDecorations";
 
 interface Props {
   data: BiodataForm;
@@ -278,6 +279,9 @@ export default function BiodataTemplate({ data }: Props) {
       className="biodata-template w-[794px] mx-auto relative"
       style={{ backgroundColor: theme.bg, height: "1123px", overflow: "hidden" }}
     >
+      {/* SVG watermark background decorations */}
+      {getDecoration(theme.category, theme.primary)}
+
       {/* Corner decorations */}
       <div className="absolute top-3 left-4 text-xl" style={{ color: theme.accent }}>{theme.cornerDecor}</div>
       <div className="absolute top-3 right-4 text-xl" style={{ color: theme.accent }}>{theme.cornerDecor}</div>

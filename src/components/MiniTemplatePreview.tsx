@@ -1,6 +1,7 @@
 "use client";
 
 import { TemplateTheme } from "@/components/BiodataTemplate";
+import { getDecoration } from "@/components/TemplateDecorations";
 
 /** A realistic mini biodata preview showing actual sample data in the template's real theme */
 export default function MiniTemplatePreview({ tpl, size = "md" }: { tpl: TemplateTheme; size?: "sm" | "md" }) {
@@ -11,6 +12,11 @@ export default function MiniTemplatePreview({ tpl, size = "md" }: { tpl: Templat
       className="relative w-full h-full overflow-hidden"
       style={{ backgroundColor: tpl.bg }}
     >
+      {/* SVG watermark decorations scaled down */}
+      <div className={isSmall ? "scale-[0.25] origin-top-left" : "scale-[0.35] origin-top-left"} style={{ position: "absolute", top: 0, left: 0, width: "794px", height: "1123px", pointerEvents: "none" }}>
+        {getDecoration(tpl.category, tpl.primary)}
+      </div>
+
       {/* Corner decorations */}
       <span className={`absolute top-1 left-1.5 ${isSmall ? "text-[8px]" : "text-xs"}`} style={{ color: tpl.accent }}>{tpl.cornerDecor}</span>
       <span className={`absolute top-1 right-1.5 ${isSmall ? "text-[8px]" : "text-xs"}`} style={{ color: tpl.accent }}>{tpl.cornerDecor}</span>
