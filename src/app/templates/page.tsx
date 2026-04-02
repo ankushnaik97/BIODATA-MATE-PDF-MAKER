@@ -1,14 +1,66 @@
 "use client";
 
 import Link from "next/link";
-import { templateList } from "@/components/BiodataTemplate";
+import { templateList, TemplateTheme } from "@/components/BiodataTemplate";
 import MiniTemplatePreview from "@/components/MiniTemplatePreview";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const categories = ["All", ...Array.from(new Set(templateList.map(t => t.category)))];
 
+function TemplatePreviewModal({ tpl, onClose }: { tpl: TemplateTheme; onClose: () => void }) {
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", handleKey);
+    document.body.style.overflow = "hidden";
+    return () => { document.removeEventListener("keydown", handleKey); document.body.style.overflow = ""; };
+  }, [onClose]);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+
+      {/* Modal content */}
+      <div
+        className="relative z-10 bg-white rounded-2xl shadow-2xl max-h-[95vh] overflow-auto flex flex-col"
+        style={{ maxWidth: "520px", width: "100%" }}
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 z-20 w-8 h-8 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-md text-gray-600 hover:text-gray-900 transition"
+        >
+          ✕
+        </button>
+
+        {/* Full template preview — aspect ratio matches 794:1123 */}
+        <div className="w-full" style={{ aspectRatio: "794 / 1123" }}>
+          <MiniTemplatePreview tpl={tpl} size="md" />
+        </div>
+
+        {/* Info + CTA */}
+        <div className="px-5 py-4 border-t flex items-center justify-between gap-3">
+          <div>
+            <h3 className="font-bold text-gray-900">{tpl.name}</h3>
+            <p className="text-xs text-gray-500">{tpl.category} • {tpl.desc}</p>
+          </div>
+          <Link
+            href="/create"
+            className="flex-shrink-0 px-5 py-2.5 rounded-full text-white text-sm font-semibold transition shadow hover:opacity-90"
+            style={{ backgroundColor: tpl.primary }}
+          >
+            Use Template →
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function TemplatesPage() {
   const [activeCategory, setActiveCategory] = useState("All");
+  const [previewTpl, setPreviewTpl] = useState<TemplateTheme | null>(null);
   const filtered = activeCategory === "All" ? templateList : templateList.filter(t => t.category === activeCategory);
 
   return (
@@ -47,8 +99,9 @@ export default function TemplatesPage() {
           {filtered.map((tpl) => (
             <div
               key={tpl.id}
-              className="rounded-2xl overflow-hidden border hover:shadow-xl transition-all group bg-white"
+              className="rounded-2xl overflow-hidden border hover:shadow-xl transition-all group bg-white cursor-pointer"
               style={{ borderColor: `${tpl.borderColor}40` }}
+              onClick={() => setPreviewTpl(tpl)}
             >
               {/* Real template preview */}
               <div className="h-72 border-b" style={{ borderBottomColor: `${tpl.borderColor}20` }}>
@@ -81,13 +134,23 @@ export default function TemplatesPage() {
                   </span>
                 </div>
 
-                <Link
-                  href="/create"
-                  className="block text-center px-4 py-2.5 rounded-full text-white text-sm font-semibold transition shadow hover:opacity-90"
-                  style={{ backgroundColor: tpl.primary }}
-                >
-                  Use This Template →
-                </Link>
+                <div className="flex gap-2">
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setPreviewTpl(tpl); }}
+                    className="flex-1 text-center px-4 py-2.5 rounded-full text-sm font-semibold transition border-2 hover:opacity-80"
+                    style={{ borderColor: tpl.primary, color: tpl.primary }}
+                  >
+                    👁 Preview
+                  </button>
+                  <Link
+                    href="/create"
+                    onClick={e => e.stopPropagation()}
+                    className="flex-1 text-center px-4 py-2.5 rounded-full text-white text-sm font-semibold transition shadow hover:opacity-90"
+                    style={{ backgroundColor: tpl.primary }}
+                  >
+                    Use Template →
+                  </Link>
+                </div>
               </div>
             </div>
           ))}
@@ -104,6 +167,9 @@ export default function TemplatesPage() {
           </Link>
         </div>
       </div>
+
+      {/* Full-size preview modal */}
+      {previewTpl && <TemplatePreviewModal tpl={previewTpl} onClose={() => setPreviewTpl(null)} />}
     </div>
   );
 }
