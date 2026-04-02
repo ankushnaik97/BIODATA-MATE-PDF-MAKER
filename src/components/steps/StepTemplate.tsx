@@ -1,7 +1,7 @@
 "use client";
 
 import { useBiodataStore } from "@/lib/store";
-import { templateList } from "@/components/BiodataTemplate";
+import { templateList, fontOptions } from "@/components/BiodataTemplate";
 import { Check } from "lucide-react";
 import { useState } from "react";
 
@@ -40,6 +40,41 @@ export default function StepTemplate() {
             }`}
           />
         </button>
+      </div>
+
+      {/* Font / Text Style Picker */}
+      <div>
+        <p className="text-sm font-semibold text-gray-900 mb-2">Text Style</p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          {fontOptions.map(font => {
+            const isSelected = (biodata.fontFamily || "default") === font.id;
+            return (
+              <button
+                key={font.id}
+                onClick={() => setBiodata({ fontFamily: font.id })}
+                className={`relative text-left p-3 rounded-lg border-2 transition-all ${
+                  isSelected
+                    ? "border-red-500 bg-red-50 shadow-md"
+                    : "border-gray-200 hover:border-gray-300 bg-white"
+                }`}
+              >
+                <span
+                  className="block text-base leading-tight mb-0.5"
+                  style={{ fontFamily: font.sample }}
+                >
+                  Ankush Kumar
+                </span>
+                <span className="text-[10px] text-gray-500 block">{font.name}</span>
+                <span className="text-[9px] text-gray-400">{font.desc}</span>
+                {isSelected && (
+                  <div className="absolute top-1 right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center">
+                    <Check className="w-2.5 h-2.5 text-white" />
+                  </div>
+                )}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Category filter */}

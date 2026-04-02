@@ -7,6 +7,24 @@ interface Props {
   data: BiodataForm;
 }
 
+const fontMap: Record<string, string> = {
+  default: "inherit",
+  serif: "'Noto Serif', Georgia, serif",
+  elegant: "'Playfair Display', Georgia, serif",
+  modern: "'Poppins', Arial, sans-serif",
+  classic: "'Lora', Georgia, serif",
+  cursive: "'Dancing Script', cursive",
+};
+
+export const fontOptions = [
+  { id: "default", name: "Default", desc: "Clean sans-serif", sample: "sans-serif" },
+  { id: "serif", name: "Noto Serif", desc: "Traditional serif", sample: "'Noto Serif', serif" },
+  { id: "elegant", name: "Playfair Display", desc: "Elegant decorative", sample: "'Playfair Display', serif" },
+  { id: "modern", name: "Poppins", desc: "Modern & clean", sample: "'Poppins', sans-serif" },
+  { id: "classic", name: "Lora", desc: "Classic book style", sample: "'Lora', serif" },
+  { id: "cursive", name: "Dancing Script", desc: "Handwritten cursive", sample: "'Dancing Script', cursive" },
+];
+
 function formatDate(dateStr: string): string {
   if (!dateStr) return "";
   const d = new Date(dateStr);
@@ -272,16 +290,14 @@ function getReligiousHeadline(religion: string): string {
 export default function BiodataTemplate({ data }: Props) {
   const theme = themeMap[data.templateId] || templateList[0];
   const showHeadline = data.showReligiousHeadline !== false;
+  const fontFamily = fontMap[data.fontFamily] || fontMap.default;
 
   return (
     <div
       id="biodata-content"
       className="biodata-template w-[794px] mx-auto relative"
-      style={{ backgroundColor: theme.bg, height: "1123px", overflow: "hidden" }}
+      style={{ backgroundColor: theme.bg, height: "1123px", overflow: "hidden", fontFamily }}
     >
-      {/* SVG watermark background decorations */}
-      {getDecoration(theme.category, theme.primary)}
-
       {/* Corner decorations */}
       <div className="absolute top-3 left-4 text-xl" style={{ color: theme.accent }}>{theme.cornerDecor}</div>
       <div className="absolute top-3 right-4 text-xl" style={{ color: theme.accent }}>{theme.cornerDecor}</div>
@@ -451,6 +467,11 @@ export default function BiodataTemplate({ data }: Props) {
             <p className="text-[9px]" style={{ color: theme.textMuted }}>Created with BiodataMate.com</p>
           </div>
         </div>
+      </div>
+
+      {/* SVG watermark decorations — rendered ON TOP of content with pointer-events:none */}
+      <div className="absolute inset-0 z-10" style={{ pointerEvents: "none" }}>
+        {getDecoration(theme.category, theme.primary)}
       </div>
     </div>
   );

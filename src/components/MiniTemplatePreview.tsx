@@ -12,11 +12,6 @@ export default function MiniTemplatePreview({ tpl, size = "md" }: { tpl: Templat
       className="relative w-full h-full overflow-hidden"
       style={{ backgroundColor: tpl.bg }}
     >
-      {/* SVG watermark decorations scaled down */}
-      <div className={isSmall ? "scale-[0.25] origin-top-left" : "scale-[0.35] origin-top-left"} style={{ position: "absolute", top: 0, left: 0, width: "794px", height: "1123px", pointerEvents: "none" }}>
-        {getDecoration(tpl.category, tpl.primary)}
-      </div>
-
       {/* Corner decorations */}
       <span className={`absolute top-1 left-1.5 ${isSmall ? "text-[8px]" : "text-xs"}`} style={{ color: tpl.accent }}>{tpl.cornerDecor}</span>
       <span className={`absolute top-1 right-1.5 ${isSmall ? "text-[8px]" : "text-xs"}`} style={{ color: tpl.accent }}>{tpl.cornerDecor}</span>
@@ -116,6 +111,11 @@ export default function MiniTemplatePreview({ tpl, size = "md" }: { tpl: Templat
         <div className="text-center mt-auto pt-0.5 flex-shrink-0" style={{ borderTopWidth: 1, borderTopColor: `${tpl.accent}50` }}>
           <div className={`tracking-[0.15em] ${isSmall ? "text-[4px]" : "text-[6px]"}`} style={{ color: tpl.accent }}>{tpl.footerDecor}</div>
         </div>
+      </div>
+
+      {/* SVG watermark decorations rendered ON TOP of content */}
+      <div className={`${isSmall ? "scale-[0.25] origin-top-left" : "scale-[0.35] origin-top-left"} z-10`} style={{ position: "absolute", top: 0, left: 0, width: "794px", height: "1123px", pointerEvents: "none" }}>
+        {getDecoration(tpl.category, tpl.primary)}
       </div>
     </div>
   );
