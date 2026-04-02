@@ -3,14 +3,24 @@
 import { TemplateTheme } from "@/components/BiodataTemplate";
 import { getDecoration } from "@/components/TemplateDecorations";
 
+const fontMap: Record<string, string> = {
+  default: "inherit",
+  serif: "'Noto Serif', Georgia, serif",
+  elegant: "'Playfair Display', Georgia, serif",
+  modern: "'Poppins', Arial, sans-serif",
+  classic: "'Lora', Georgia, serif",
+  cursive: "'Dancing Script', cursive",
+};
+
 /** A realistic mini biodata preview showing actual sample data in the template's real theme */
-export default function MiniTemplatePreview({ tpl, size = "md" }: { tpl: TemplateTheme; size?: "sm" | "md" }) {
+export default function MiniTemplatePreview({ tpl, size = "md", fontId }: { tpl: TemplateTheme; size?: "sm" | "md"; fontId?: string }) {
   const isSmall = size === "sm";
+  const fontFamily = fontId ? (fontMap[fontId] || "inherit") : "inherit";
 
   return (
     <div
       className="relative w-full h-full overflow-hidden"
-      style={{ backgroundColor: tpl.bg }}
+      style={{ backgroundColor: tpl.bg, fontFamily }}
     >
       {/* Corner decorations */}
       <span className={`absolute top-1 left-1.5 ${isSmall ? "text-[8px]" : "text-xs"}`} style={{ color: tpl.accent }}>{tpl.cornerDecor}</span>

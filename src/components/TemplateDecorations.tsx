@@ -53,7 +53,7 @@ function Leaf({ cx, cy, size, rot, color }: { cx: number; cy: number; size: numb
 /* ─── FLORAL: LARGE flowers tiled across the ENTIRE page like wallpaper ─── */
 export function FloralDecor({ color }: DecorProps) {
   return (
-    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 794 1123" fill="none" preserveAspectRatio="none" style={{ opacity: 0.12 }}>
+    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 794 1123" fill="none" preserveAspectRatio="none" style={{ opacity: 0.22 }}>
       {/* ── Row 1: Top area (y~60-120) ── */}
       <BigFlower cx={70} cy={80} r={65} color={color} rot={0} />
       <Flower5 cx={220} cy={60} r={40} color={color} rot={15} />
@@ -143,7 +143,7 @@ export function FloralDecor({ color }: DecorProps) {
 /* ─── ROYAL: Large crowns, shields, ornamental motifs tiled across page ─── */
 export function RoyalDecor({ color }: DecorProps) {
   return (
-    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 794 1123" fill="none" preserveAspectRatio="none" style={{ opacity: 0.1 }}>
+    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 794 1123" fill="none" preserveAspectRatio="none" style={{ opacity: 0.2 }}>
       {/* ── Large crown motifs in a grid ── */}
       {[
         {x:100,y:90},{x:397,y:70},{x:694,y:90},
@@ -220,7 +220,7 @@ export function RoyalDecor({ color }: DecorProps) {
 /* ─── ELEGANT: Large filigree swirls, ornate frames tiled across page ─── */
 export function ElegantDecor({ color }: DecorProps) {
   return (
-    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 794 1123" fill="none" preserveAspectRatio="none" style={{ opacity: 0.1 }}>
+    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 794 1123" fill="none" preserveAspectRatio="none" style={{ opacity: 0.2 }}>
       {/* ── Large corner filigrees ── */}
       <path d="M0 0 Q80 10 100 80 Q110 130 80 150 Q50 170 70 210" stroke={color} strokeWidth="3.5" fill="none" />
       <path d="M0 0 Q10 80 80 100 Q130 110 150 80 Q170 50 210 70" stroke={color} strokeWidth="3.5" fill="none" />
@@ -284,7 +284,7 @@ export function ElegantDecor({ color }: DecorProps) {
 /* ─── MODERN: Large geometric shapes tiled across page ─── */
 export function ModernDecor({ color }: DecorProps) {
   return (
-    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 794 1123" fill="none" preserveAspectRatio="none" style={{ opacity: 0.08 }}>
+    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 794 1123" fill="none" preserveAspectRatio="none" style={{ opacity: 0.18 }}>
       {/* ── Large corner brackets ── */}
       <path d="M60 0 L0 0 L0 60" stroke={color} strokeWidth="5" fill="none" />
       <path d="M100 0 L0 0 L0 100" stroke={color} strokeWidth="2.5" fill="none" />
@@ -352,7 +352,7 @@ export function ModernDecor({ color }: DecorProps) {
 /* ─── TRADITIONAL: Large mandalas, paisleys tiled across page ─── */
 export function TraditionalDecor({ color }: DecorProps) {
   return (
-    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 794 1123" fill="none" preserveAspectRatio="none" style={{ opacity: 0.1 }}>
+    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 794 1123" fill="none" preserveAspectRatio="none" style={{ opacity: 0.2 }}>
       {/* ── Large corner paisleys ── */}
       <g>
         <path d="M40 160 Q15 100 40 45 Q65 5 105 25 Q140 45 120 95 Q100 140 55 155 Z" fill={color} />
@@ -453,7 +453,7 @@ export function TraditionalDecor({ color }: DecorProps) {
 /* ─── LUXURY: Large damask, fleur-de-lis tiled across page ─── */
 export function LuxuryDecor({ color }: DecorProps) {
   return (
-    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 794 1123" fill="none" preserveAspectRatio="none" style={{ opacity: 0.09 }}>
+    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 794 1123" fill="none" preserveAspectRatio="none" style={{ opacity: 0.2 }}>
       {/* ── Large corner scrollwork ── */}
       <path d="M80 0 Q80 40 50 65 Q20 90 40 125 Q60 160 30 185" stroke={color} strokeWidth="3.5" fill="none" />
       <path d="M0 80 Q40 80 65 50 Q90 20 125 40 Q160 60 185 30" stroke={color} strokeWidth="3.5" fill="none" />

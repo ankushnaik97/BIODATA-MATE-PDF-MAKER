@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { templateList, TemplateTheme } from "@/components/BiodataTemplate";
+import { templateList, TemplateTheme, fontOptions } from "@/components/BiodataTemplate";
 import MiniTemplatePreview from "@/components/MiniTemplatePreview";
 import { useState, useEffect } from "react";
 
 const categories = ["All", ...Array.from(new Set(templateList.map(t => t.category)))];
 
-function TemplatePreviewModal({ tpl, onClose }: { tpl: TemplateTheme; onClose: () => void }) {
+function TemplatePreviewModal({ tpl, onClose, fontId }: { tpl: TemplateTheme; onClose: () => void; fontId: string }) {
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     document.addEventListener("keydown", handleKey);
@@ -36,7 +36,7 @@ function TemplatePreviewModal({ tpl, onClose }: { tpl: TemplateTheme; onClose: (
 
         {/* Full template preview — aspect ratio matches 794:1123 */}
         <div className="w-full" style={{ aspectRatio: "794 / 1123" }}>
-          <MiniTemplatePreview tpl={tpl} size="md" />
+          <MiniTemplatePreview tpl={tpl} size="md" fontId={fontId} />
         </div>
 
         {/* Info + CTA */}
@@ -61,6 +61,7 @@ function TemplatePreviewModal({ tpl, onClose }: { tpl: TemplateTheme; onClose: (
 export default function TemplatesPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [previewTpl, setPreviewTpl] = useState<TemplateTheme | null>(null);
+  const [selectedFont, setSelectedFont] = useState("default");
   const filtered = activeCategory === "All" ? templateList : templateList.filter(t => t.category === activeCategory);
 
   return (
@@ -75,6 +76,26 @@ export default function TemplatesPage() {
             Floral roses & marigolds, royal ornaments, elegant borders, modern minimalist, traditional motifs & luxury designs.
             Each template is handcrafted with unique decorative elements.
           </p>
+        </div>
+
+        {/* Font / Text Style Selector */}
+        <div className="mb-8">
+          <p className="text-center text-sm font-semibold text-gray-700 mb-3">Choose Text Style</p>
+          <div className="flex flex-wrap justify-center gap-2">
+            {fontOptions.map(font => (
+              <button
+                key={font.id}
+                onClick={() => setSelectedFont(font.id)}
+                className={`px-4 py-2 rounded-lg border-2 transition text-sm ${
+                  selectedFont === font.id
+                    ? "border-red-500 bg-red-50 text-red-700 shadow-md"
+                    : "border-gray-200 bg-white text-gray-600 hover:border-gray-300"
+                }`}
+              >
+                <span style={{ fontFamily: font.sample }}>{font.name}</span>
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Category filter */}
@@ -105,7 +126,7 @@ export default function TemplatesPage() {
             >
               {/* Real template preview */}
               <div className="h-72 border-b" style={{ borderBottomColor: `${tpl.borderColor}20` }}>
-                <MiniTemplatePreview tpl={tpl} size="md" />
+                <MiniTemplatePreview tpl={tpl} size="md" fontId={selectedFont} />
               </div>
 
               {/* Info area */}
@@ -169,7 +190,7 @@ export default function TemplatesPage() {
       </div>
 
       {/* Full-size preview modal */}
-      {previewTpl && <TemplatePreviewModal tpl={previewTpl} onClose={() => setPreviewTpl(null)} />}
+      {previewTpl && <TemplatePreviewModal tpl={previewTpl} onClose={() => setPreviewTpl(null)} fontId={selectedFont} />}
     </div>
   );
 }
