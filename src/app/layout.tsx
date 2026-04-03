@@ -119,12 +119,7 @@ const jsonLd = {
       "@id": `${SITE_URL}/#website`,
       url: SITE_URL,
       name: "BiodataMate",
-      description: "Create beautiful marriage biodata online. Best biodata maker for all religions.",
-      potentialAction: {
-        "@type": "SearchAction",
-        target: `${SITE_URL}/create`,
-        "query-input": "required name=search_term_string",
-      },
+      description: "Create beautiful marriage biodata online. Best biodata maker for all religions. 24 premium templates.",
     },
     {
       "@type": "Organization",
@@ -189,6 +184,14 @@ const jsonLd = {
           acceptedAnswer: {
             "@type": "Answer",
             text: "Yes! You can download your biodata as a high-quality A4 PDF or PNG image. The biodata is print-ready and looks professional.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "How many biodata templates are available?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "BiodataMate offers 24 premium biodata templates across 6 categories — Floral, Royal, Elegant, Modern, Traditional & Luxury. Each template features beautiful decorative borders and ornaments.",
           },
         },
         {

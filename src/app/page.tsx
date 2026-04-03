@@ -1,7 +1,6 @@
-"use client";
-
+import type { Metadata } from "next";
 import Link from "next/link";
-import { templateList } from "@/components/BiodataTemplate";
+import { templateList } from "@/lib/templates";
 import MiniTemplatePreview from "@/components/MiniTemplatePreview";
 import {
   Heart,
@@ -14,6 +13,19 @@ import {
   IndianRupee,
   ChevronRight,
 } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "BiodataMate - #1 Free Marriage Biodata Maker Online | Create & Download PDF",
+  description:
+    "Create beautiful marriage biodata online in minutes. 24 premium templates for Hindu, Muslim, Christian, Sikh & all religions. PDF & image download. Free to create, only ₹9/$2 to download.",
+  alternates: { canonical: "https://biodata-mate.vercel.app" },
+  openGraph: {
+    title: "BiodataMate - #1 Free Marriage Biodata Maker Online",
+    description:
+      "Create stunning marriage biodata in minutes. 24 premium templates for all religions. Download as PDF or image.",
+    url: "https://biodata-mate.vercel.app",
+  },
+};
 
 const features = [
   {

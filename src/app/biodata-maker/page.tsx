@@ -89,7 +89,7 @@ export default function BiodataMakerPage() {
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { icon: FileText, title: "4 Premium Templates", desc: "Elegant Gold, Royal Red, Modern Blue & Traditional Green — handcrafted designs that impress." },
+              { icon: FileText, title: "24 Premium Templates", desc: "Floral, Royal, Elegant, Modern, Traditional & Luxury — 24 stunning designs with decorative borders & ornaments." },
               { icon: Heart, title: "Every Religion Covered", desc: "Hindu, Muslim, Christian, Sikh, Jain, Buddhist with religion-specific fields and greetings." },
               { icon: Download, title: "PDF & Image Download", desc: "Download your biodata as high-quality A4 PDF or HD PNG image. Professional print-ready format." },
               { icon: Shield, title: "100% Private & Secure", desc: "Your data stays in your browser. Nothing is stored on our servers. Complete privacy guaranteed." },
@@ -122,7 +122,7 @@ export default function BiodataMakerPage() {
               { step: "6", title: "Contact Details", desc: "Add your address, phone, email, and contact person details." },
               { step: "7", title: "Partner Preferences", desc: "Specify preferred age, height, education, income, religion, and diet for your partner." },
               { step: "8", title: "Write About Yourself", desc: "A short bio paragraph to make a personal connection with readers." },
-              { step: "9", title: "Choose Template & Download", desc: "Pick from 4 premium templates, preview your biodata, and download as PDF or image." },
+              { step: "9", title: "Choose Template & Download", desc: "Pick from 24 premium templates, preview your biodata, and download as PDF or image." },
             ].map((s) => (
               <div key={s.step} className="flex gap-4">
                 <div className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center font-bold flex-shrink-0">

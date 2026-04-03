@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Marriage Biodata Templates - Beautiful PDF Templates for All Religions",
+  title: "24 Marriage Biodata Templates - Floral, Royal, Elegant, Modern & More",
   description:
-    "Browse premium marriage biodata templates. Elegant Gold, Royal Red, Modern Blue & Traditional Green designs. Perfect for Hindu, Muslim, Christian, Sikh weddings. Download as A4 PDF.",
+    "Browse 24 premium marriage biodata templates. Floral, Royal, Elegant, Modern, Traditional & Luxury designs with beautiful decorative borders & ornaments. Perfect for Hindu, Muslim, Christian, Sikh weddings. Download as A4 PDF.",
   keywords: [
     "biodata template",
     "marriage biodata template",
@@ -17,13 +17,18 @@ export const metadata: Metadata = {
     "best biodata template",
     "biodata format for marriage",
     "beautiful biodata design",
+    "floral biodata template",
+    "royal biodata template",
+    "elegant biodata template",
+    "modern biodata template",
+    "luxury biodata template",
   ],
   alternates: {
     canonical: "https://biodata-mate.vercel.app/templates",
   },
   openGraph: {
-    title: "Marriage Biodata Templates - Premium Designs for All Religions",
-    description: "Choose from 4 beautiful biodata templates. Elegant Gold, Royal Red, Modern Blue & Traditional Green.",
+    title: "24 Marriage Biodata Templates - Premium Designs for All Religions | BiodataMate",
+    description: "Browse 24 beautiful biodata templates — Floral, Royal, Elegant, Modern, Traditional & Luxury designs with decorative borders.",
     url: "https://biodata-mate.vercel.app/templates",
   },
 };
